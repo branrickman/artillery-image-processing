@@ -1,0 +1,104 @@
+clc, clearvars;
+%% Using the Circular Hough Transform to Detect Artillery Craters
+load_images;
+
+% Select image
+image = im12;
+
+% Default agruments: color_channel=1, blur_std=0.5, grey_levels=40
+first_pass = preprocessing(image, 1, 1, 40);
+imshow(first_pass)
+caption = "Pre-processed Image";
+title(caption, "FontSize", 14);
+drawnow();
+figure
+
+% Default arguments: threshold=225/255,
+bin = binarize(first_pass, 20/255);
+bin = not(bin);
+imshow(bin)
+caption = "Binarized Image";
+title(caption, "FontSize", 14);
+drawnow();
+figure
+
+% Default arguments: morph=1, canny=1
+second_pass = edge_processing(bin, 1, 0);
+
+%% Comparison of options
+second_pass_canny = edge_processing(bin, 0, 1);
+second_pass_morph = edge_processing(bin, 1, 0);
+second_pass_both = edge_processing(bin, 1, 1);
+
+second_pass_images = [second_pass_canny, second_pass_morph, second_pass_both];
+montage(second_pass_images)
+caption = "Canny                                  Morph                              Morph then Canny";
+title(caption, "FontSize", 14);
+drawnow();
+figure
+% imshow(second_pass);
+% figure;
+
+% Default arguments: min_radius=10, max_radius=30
+[centers, radii, metric] = detector(second_pass, 5, 30);
+
+% Default arguments: color="r", selector = 0
+print_image(image, second_pass, 0, centers, radii, "r");
+
+function f = preprocessing(image, color_channel, blur_std, grey_levels)
+    % Prepares image for binarization and edge emphasization
+    single_color = image(:,:,color_channel);
+    blurred = imgaussfilt(single_color, blur_std);
+    contrast_equalized = histeq(blurred, grey_levels);
+    f = contrast_equalized;
+end
+
+function f = binarize(image, threshold)
+    % Binarizes image and emphasized edges
+    f = imbinarize(image, threshold);
+end
+
+function f = edge_processing(image, morph, canny)
+    binary = image;
+    
+        % Morphological operations
+    if morph > 0
+        SE2 = strel('square', 2);
+        eroded = imerode(imerode(binary, SE2), SE2);
+        dilated = imdilate(eroded, SE2);
+        binary = dilated;
+    elseif morph == 0
+        % do nothing
+    else
+        error("Invalid argument for argument 'morph' in edge_processing");
+    end
+    
+    % Canny edge detection
+    if canny == 1
+        binary = edge(image,'Canny');
+    elseif canny == 0
+        % do nothing
+    else
+        error("Invalid argument for argument 'canny' in edge_processing");
+    end
+
+    f = binary;
+end
+
+function [centers, radii, metric] = detector(image, min_radius, max_radius)
+    [centers, radii, metric] = imfindcircles(image, [min_radius max_radius]);
+end
+
+function print_image(image, processed_input, selector, centers, radii, color)
+    if selector == 0
+        imshow(image);
+    elseif selector == 1
+        imshow(processed_input);
+    else 
+        error("Invalid value passed as argument 'processed_input' in print_image");
+    end
+    viscircles(centers(:, :), radii(:), "EdgeColor", color, "LineWidth", 0.1, "LineStyle", "-");
+    caption = "Initial Method Final Result";
+    title(caption, "FontSize", 14);
+    drawnow();
+end
