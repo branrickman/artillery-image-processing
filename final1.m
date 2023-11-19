@@ -166,7 +166,7 @@ mbin225 = imbinarize(bh, 225/255);
 % detect from edges
 
 %% manual thresholding comparison
-T = 35/255
+T = 225/255
 % just histogram eq, no blur
 mbinh = imbinarize(ih, T);
 
@@ -176,7 +176,9 @@ mbinhb = imbinarize(hb, T);
 % binarization with blur THEN contrast stretch
 mbinbh = imbinarize(bh, T);
 
- montage({mbinh, mbinhb, mbinbh})
+montage({mbinh, mbinhb, mbinbh})
+title("Order of Operations (Contrast Stretch, Blur)");
+figure
 
 % here we can see a clear improvment of both methods that blur and contrast
 % stretch over just the contrast stretching.
