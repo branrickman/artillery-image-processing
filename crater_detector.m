@@ -3,7 +3,8 @@ clc,clearvars;
 load_images;
 
 %% Processing
-image = im4;
+image = im12;
+
 % Initial tune: color_channel=2, bins=40, blur_std=0.5, trim_threshold = 10
 pre = preprocess(image, 2, 40, 0.5, 10);
 % Initial detect_craters tune: lower_size_cutoff=10, upper_size_cutoff=500

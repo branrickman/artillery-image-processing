@@ -16,6 +16,9 @@ histg = imhist(g);
 histb = imhist(b);
 
 % Plot color channel histograms
+montage({im12(:,:,1),im12(:,:,2),im12(:,:,3)});
+title("Color Channel Comparison", "FontSize", 12);
+figure
 % imhist(r);
 % caption = "Red Channel";
 % title(caption, "FontSize", 14);
