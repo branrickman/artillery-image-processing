@@ -20,3 +20,6 @@ im32 = imread("test images\c3\craters3 (2).jpg");
 im4 = imread("test images\c4\craters4.jpg");
 im42 = imread("test images\c4\craters4 (2).jpg");
 im43 = imread("test images\c4\craters4 (3).jpg");
+
+% lunar
+moon1 = imread("test images\lunar-imagery-iv_094_h3.jpg");
