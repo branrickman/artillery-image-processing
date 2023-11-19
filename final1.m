@@ -466,6 +466,7 @@ hold on
 plot(centroids5(:,1), centroids5(:,2), 'r*')
 plot(centroidsgt510(:,1), centroidsgt510(:,2), 'c*')
 plot(centroidstrimmed10(:,1), centroidstrimmed10(:,2), 'b*')
+title("Cutoff Threshold Experiment: red=lt5, cyan=5-10, blue>10");
 hold off
 % (my apologies to the colorblind)
 
