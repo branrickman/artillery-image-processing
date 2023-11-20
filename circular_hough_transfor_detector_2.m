@@ -3,7 +3,7 @@ clc, clearvars;
 load_images;
 
 % Select image
-image = im12;
+image = im2;
 
 imshow(image)
 % Experimenting with filtering components and handling dark and light
@@ -30,22 +30,22 @@ imshow(image)
 viscircles(centersl(:, :), radiil(:), "EdgeColor", "c", "LineWidth", 0.1, "LineStyle", "-");
 % draw dark detected circles
 viscircles(centersd(:, :), radiid(:), "EdgeColor", "r", "LineWidth", 0.1, "LineStyle", "-");
-caption = "Two step, Small Component Culling";
+caption = "Site 2 Full size: Two step, Small Component Culling";
 title(caption, "FontSize", 14);
 drawnow();
 
 % red mask overlay
-red_mask_overlay = image;
-red_mask_overlay(:,:,1) = red_mask_overlay(:,:,1) + (cast(dark_trimmed, "uint8") * 255);
-
-blue_mask_overlay = image;
-red_mask_overlay(:,:,3) = red_mask_overlay(:,:,3) + (cast(light_trimmed, "uint8") * 255);
-
-imshow(red_mask_overlay);
-% draw light detected circles
-viscircles(centersl(:, :), radiil(:), "EdgeColor", "c", "LineWidth", 0.1, "LineStyle", "-");
-% draw dark detected circles
-viscircles(centersd(:, :), radiid(:), "EdgeColor", "r", "LineWidth", 0.1, "LineStyle", "-");
-caption = "Mask Overlay for Small Component Culling";
-title(caption, "FontSize", 14);
-drawnow();
+% red_mask_overlay = image;
+% red_mask_overlay(:,:,1) = red_mask_overlay(:,:,1) + (cast(dark_trimmed, "uint8") * 255);
+% 
+% blue_mask_overlay = image;
+% red_mask_overlay(:,:,3) = red_mask_overlay(:,:,3) + (cast(light_trimmed, "uint8") * 255);
+% 
+% imshow(red_mask_overlay);
+% % draw light detected circles
+% viscircles(centersl(:, :), radiil(:), "EdgeColor", "c", "LineWidth", 0.1, "LineStyle", "-");
+% % draw dark detected circles
+% viscircles(centersd(:, :), radiid(:), "EdgeColor", "r", "LineWidth", 0.1, "LineStyle", "-");
+% caption = "Mask Overlay for Small Component Culling";
+% title(caption, "FontSize", 14);
+% drawnow();
